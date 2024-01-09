@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use App\Controller\EventController;
 use App\Controller\UploadEventImgController;
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,6 +22,16 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/events/latest',
+            controller: "App\\Controller\\EventController::latest",
+            name: 'getLatest'
+        ),
+        new GetCollection(
+            uriTemplate: '/events/user/{id}/month/{month}',
+            controller: "App\\Controller\\EventController::findByUserAndMonth",
+            name: 'getLastest'
+        ),
         new Get(),
         new GetCollection(
             normalizationContext: ['groups' => ['event:read']]
@@ -73,9 +84,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
                     ])
                 )
             ),
+            deserialize: false,
             //validationContext: ['groups' => ['Default', 'media_object_create']],
             // deserialize: false
-        )
+        ),
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
 )]
