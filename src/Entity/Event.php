@@ -86,8 +86,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             ),
             deserialize: false,
             //validationContext: ['groups' => ['Default', 'media_object_create']],
-            // deserialize: false
-        ),
+        )
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
 )]
