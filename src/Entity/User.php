@@ -85,6 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->follows = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->interests = new ArrayCollection();
     }
 
     #[Assert\NotBlank(groups: ['user:create'])]
@@ -104,6 +105,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
+
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'users')]
+    private Collection $interests;
 
     public function getId(): ?int
     {
@@ -275,6 +279,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getInterests(): Collection
+    {
+        return $this->interests;
+    }
+
+    public function addInterest(Tag $interest): static
+    {
+        if (!$this->interests->contains($interest)) {
+            $this->interests->add($interest);
+        }
+
+        return $this;
+    }
+
+    public function removeInterest(Tag $interest): static
+    {
+        $this->interests->removeElement($interest);
 
         return $this;
     }
