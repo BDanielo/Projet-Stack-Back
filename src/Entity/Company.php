@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +17,89 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'properties' => [
+                                    'name' => [
+                                        'type' => 'string',
+                                        'example' => 'NightBreeze'
+                                    ],
+                                    'description' => [
+                                        'type' => 'string',
+                                        'example' => 'Bar'
+                                    ],
+                                    'location' => [
+                                        'type' => 'string',
+                                        'example' => 'Grenoble'
+                                    ],
+                                    'type' => [
+                                        'type' => 'string',
+                                        'example' => 'Entreprise'
+                                    ],
+                                    'validated' => [
+                                        'type' => 'boolean',
+                                        'example' => 'true'
+                                    ],
+                                    'creationDate' => [
+                                        'type' => 'string',
+                                        'example' => '2024-01-01'
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ])
+                )
+            )
+        ),
+        new Put(
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'properties' => [
+                                    'name' => [
+                                        'type' => 'string',
+                                        'example' => 'Sport'
+                                    ],
+                                    'description' => [
+                                        'type' => 'string',
+                                        'example' => 'Toutes les activités sportives'
+                                    ],
+                                    'location' => [
+                                        'type' => 'string',
+                                        'example' => 'Paris'
+                                    ],
+                                    'type' => [
+                                        'type' => 'string',
+                                        'example' => 'Association'
+                                    ],
+                                    'validated' => [
+                                        'type' => 'boolean',
+                                        'example' => 'true'
+                                    ],
+                                    'creationDate' => [
+                                        'type' => 'string',
+                                        'example' => '2021-01-01'
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ])
+                )
+            )
+        ),
+        new Delete()
+    ]
+)]
 class Company
 {
     #[ORM\Id]
