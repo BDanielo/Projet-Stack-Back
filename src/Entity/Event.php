@@ -96,7 +96,59 @@ use Symfony\Component\Serializer\Attribute\Groups;
             ),
             deserialize: false,
             //validationContext: ['groups' => ['Default', 'media_object_create']],
-        )
+        ),
+        new Put(
+            controller: UploadEventImgController::class,
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'name' => [
+                                        'type' => 'string'
+                                    ],
+                                    'description' => [
+                                        'type' => 'string'
+                                    ],
+                                    'location' => [
+                                        'type' => 'string'
+                                    ],
+                                    'startDateTime' => [
+                                        'type' => 'string',
+                                        'format' => 'date-time'
+                                    ],
+                                    'endDateTime' => [
+                                        'type' => 'string',
+                                        'format' => 'date-time'
+                                    ],
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary'
+                                    ],
+                                    'organizersId' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ],
+                                    'participantsId' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'integer'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ),
+            deserialize: false,
+        //validationContext: ['groups' => ['Default', 'media_object_create']],
+        ),
+        new Delete()
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
 )]

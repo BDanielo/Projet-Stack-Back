@@ -13,17 +13,24 @@ class UserController extends AbstractController
 
     public function __construct(
         private UserRepository $repo,
+
     )
     {
     }
 
     public function findByEmail(Request $request): Response {
-        $requestContent = $request->getContent();
+        $queryContent = $request->getQueryString();
 
-        //form request content (which is in json) get email value
-        $email = json_decode($requestContent)->email;
+        // Parse the URL string into variables
+        parse_str($queryContent, $params);
 
-        $events = $this->repo->getUserIdByEmail($email);
+        // Get the value of the 'email' parameter
+        $email = $params['email'];
+
+        // Decode the URL-encoded email
+        $decoded_email = urldecode($email);
+
+        $events = $this->repo->getUserIdByEmail($decoded_email);
         return $this->json($events);
     }
 }
