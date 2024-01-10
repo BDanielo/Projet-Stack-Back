@@ -2,7 +2,7 @@
 
 Bienvenue dans Event-app !
 
-Ce dépôt contient le code source (le back) d'une application de gestion d'événements centralisée construite avec Angular pour le frontend et Symfony pour le **backend**.
+Ce dépôt contient le code source (le back) d'une application de gestion d'événements centralisée construite avec Angular 17.1.0-rc.0 pour le frontend et Symfony 6.4 pour le **backend**.
 
 ## Liens du Projet
 
@@ -22,7 +22,7 @@ Event-app vise à centraliser la gestion des événements pour diverses organisa
 1. Clonez le dépôt GitHub :
 
 ```bash
-git clone https://github.com/BDanielo/Projet-Stack.git
+git clone git@github.com:BDanielo/Projet-Stack-Back.git
 ```
 
 2. Accédez au répertoire du projet :
