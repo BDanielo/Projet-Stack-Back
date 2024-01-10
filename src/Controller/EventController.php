@@ -39,4 +39,10 @@ class EventController extends AbstractController
         return $this->json($events);
     }
 
+    public function findParticipants($id): Response {
+        $events = $this->repo->findParticipants($id);
+
+        return $this->json($events);
+    }
+
 }

@@ -37,6 +37,11 @@ use Symfony\Component\Serializer\Attribute\Groups;
             controller: "App\\Controller\\EventController::findByUserAndInterests",
             name: 'getByUserAndInterests'
         ),
+        new GetCollection(
+            uriTemplate: '/events/participants/{id}',
+            controller: "App\\Controller\\EventController::findParticipants",
+            name: 'getParticipants'
+        ),
         new Get(),
         new GetCollection(
             normalizationContext: ['groups' => ['event:read']]

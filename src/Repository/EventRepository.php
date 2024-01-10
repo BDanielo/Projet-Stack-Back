@@ -90,4 +90,16 @@ class EventRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
+    // A function to counts participants of an event
+    public function findParticipants(int $eventId): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->Join('e.participants', 'p')
+            ->andWhere('e.id = :eventId')
+            ->setParameter('eventId', $eventId)
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
 }
