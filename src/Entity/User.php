@@ -19,9 +19,31 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
+use ApiPlatform\OpenApi\Model;
 
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/users/getByEmail',
+            controller: "App\\Controller\\UserController::findByEmail",
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                            'json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'email' => [
+                                            'type' => 'string'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ])
+                )
+            ),
+            name: 'findByEmail'
+        ),
         new GetCollection(),
         new Post(validationContext: ['groups' => ['Default', 'user:create']], processor: UserPasswordHasher::class),
         new Get(),
