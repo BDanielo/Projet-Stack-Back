@@ -45,20 +45,6 @@ class EventRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-
-    // A function to get events base on their start date
-    public function findBeforeDate(\DateTime $date): array
-    {
-        $qb = $this->createQueryBuilder('e')
-            ->andWhere('e.startDateTime < :date')
-            ->setParameter('date', $date)
-            ->orderBy('e.startDateTime', 'DESC')
-            ->getQuery();
-
-        return $qb->getResult();
-    }
-
     // A function to get events of a user for a specific month of current year
     public function findByUserAndMonth(int $userId, int $month): array
     {
@@ -82,6 +68,23 @@ class EventRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('e')
             ->orderBy('e.startDateTime', 'DESC')
             ->setMaxResults(10)
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
+    // A function to get events of a user based on its interests
+    public function findByUserAndInterests(int $userId): array
+    {
+        // Get user with userID, then get its interests (tags), then get all event with those tags (not using EntityManager)
+        $qb = $this->createQueryBuilder('e')
+            ->Join('e.tags', 't')
+            ->Join('t.users', 'u')
+            ->andWhere('u.id = :userId')
+            ->andWhere('e.startDateTime >= :start')
+            ->setParameter('start', new \DateTime(date('Y-m-d')))
+            ->setParameter('userId', $userId)
+            ->orderBy('e.startDateTime', 'DESC')
             ->getQuery();
 
         return $qb->getResult();

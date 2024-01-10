@@ -30,7 +30,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new GetCollection(
             uriTemplate: '/events/user/{id}/month/{month}',
             controller: "App\\Controller\\EventController::findByUserAndMonth",
-            name: 'getLastest'
+            name: 'getByUserAndMonth'
+        ),
+        new GetCollection(
+            uriTemplate: '/events/byUserAndInterests/{id}',
+            controller: "App\\Controller\\EventController::findByUserAndInterests",
+            name: 'getByUserAndInterests'
         ),
         new Get(),
         new GetCollection(
