@@ -27,20 +27,20 @@ use ApiPlatform\OpenApi\Model;
             uriTemplate: '/users/getByEmail',
             controller: "App\\Controller\\UserController::findByEmail",
             openapi: new Model\Operation(
-                requestBody: new Model\RequestBody(
-                    content: new \ArrayObject([
-                            'json' => [
-                                'schema' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'email' => [
-                                            'type' => 'string'
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ])
-                )
+                operationId: 'findByEmail',
+                tags: ['User'],
+                summary: 'Get user by email',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'email',
+                        in: 'query',
+                        required: true,
+                        schema: [
+                            'type' => 'string',
+                            'format' => 'email'
+                        ]
+                    )
+                ]
             ),
             name: 'findByEmail'
         ),
@@ -300,7 +300,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeInterest(Tag $interest): static
+        public function removeInterest(Tag $interest): static
     {
         $this->interests->removeElement($interest);
 
