@@ -11,6 +11,7 @@ Ce dépôt contient le code source (le back) d'une application de gestion d'év�
 - [Diagramme de la Base de Données](https://dbdiagram.io/d/Diagramme-bd-challenge-stack-65689c263be14957870faed9)
 - [Tableau Trello](https://trello.com/invite/b/nbRqCxvU/ATTI9528480c65341b056eb02d1b143cffe672F80830/challenge-slack)
 - [Figma](https://www.figma.com/file/5N6quj4Cok3OQEAgwdZ0pf/PartyEvent?type=design&node-id=0-1&mode=design)
+- [Git front](https://github.com/CreatibOfficiel/events-app)
 
 ## Vue d'ensemble
 
