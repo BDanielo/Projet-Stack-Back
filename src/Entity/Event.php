@@ -97,6 +97,27 @@ use Symfony\Component\Serializer\Attribute\Groups;
             deserialize: false,
             //validationContext: ['groups' => ['Default', 'media_object_create']],
         ),
+        new Post(
+            uriTemplate: '/events/{id}/addParticipant',
+            controller: "App\\Controller\\EventController::addParticipant",
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'userId' => [
+                                        'type' => 'integer'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ),
+            name: 'addParticipant',
+        ),
         new Put(
             controller: UploadEventImgController::class,
             openapi: new Model\Operation(

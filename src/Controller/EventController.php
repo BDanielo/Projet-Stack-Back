@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +18,8 @@ class EventController extends AbstractController
 
     public function __construct(
         private EventRepository $repo,
+        private UserRepository $userRepo,
+        private EntityManagerInterface $em
     )
     {
     }
@@ -43,6 +46,20 @@ class EventController extends AbstractController
         $events = $this->repo->findParticipants($id);
 
         return $this->json($events);
+    }
+
+    public function addParticipant($id, Request $request): Response {
+        $event = $this->repo->find($id);
+
+        $userId = json_decode($request->getContent())->userId;
+
+        $user = $this->userRepo->find($userId);
+        $event->addParticipant($user);
+
+        $this->em->persist($event);
+        $this->em->flush();
+
+        return $this->json($event);
     }
 
 }
