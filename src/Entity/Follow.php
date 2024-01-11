@@ -2,10 +2,76 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Tests\Fixtures\Metadata\Get;
 use App\Repository\FollowRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FollowRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'properties' => [
+                                    'Follower' => [
+                                        'type' => 'string',
+                                        'example' => '/api/users/1'
+                                    ],
+                                    'Company' => [
+                                        'type' => 'string',
+                                        'example' => '/api/companies/1'
+                                    ],
+                                    'notificationEnabled' => [
+                                        'type' => 'boolean',
+                                        'example' => 'true'
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ])
+                )
+            )
+        ),
+        new Put(
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'properties' => [
+                                    'Follower' => [
+                                        'type' => 'string',
+                                        'example' => '/api/users/1'
+                                    ],
+                                    'Company' => [
+                                        'type' => 'string',
+                                        'example' => '/api/companies/1'
+                                    ],
+                                    'notificationEnabled' => [
+                                        'type' => 'boolean',
+                                        'example' => 'true'
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ])
+                )
+            )
+        ),
+        new Delete(),
+    ]
+)]
 class Follow
 {
     #[ORM\Id]
