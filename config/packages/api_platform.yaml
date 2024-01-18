@@ -2,8 +2,6 @@ api_platform:
     title: Hello API Platform
     version: 1.0.0
     formats:
-        jsonld: ['application/ld+json']
-        multipart: ['multipart/form-data']
         json: ['application/json']
     docs_formats:
         jsonld: ['application/ld+json']
