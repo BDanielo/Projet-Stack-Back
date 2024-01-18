@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
@@ -32,6 +35,12 @@ class UserController extends AbstractController
 
         $events = $this->repo->getUserIdByEmail($decoded_email);
         return $this->json($events);
+    }
+
+    public function getCurrentUser() : Response
+    {
+        $user = $this->getUser();
+        return $this->json($user);
     }
 }
 

@@ -44,6 +44,16 @@ use ApiPlatform\OpenApi\Model;
             ),
             name: 'findByEmail'
         ),
+        new Get(
+            uriTemplate: '/users/getUser',
+            controller: "App\\Controller\\UserController::getCurrentUser",
+            openapi: new Model\Operation(
+                operationId: 'getUser',
+                tags: ['User'],
+                summary: 'Get connected user',
+            ),
+            name: 'getUser'
+        ),
         new GetCollection(),
         new Post(validationContext: ['groups' => ['Default', 'user:create']], processor: UserPasswordHasher::class),
         new Get(),
