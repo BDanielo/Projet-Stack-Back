@@ -44,7 +44,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new Get(),
         new GetCollection(
-            normalizationContext: ['groups' => ['event:read']]
+//            normalizationContext: ['groups' => ['event:read']]
         ),
         new Post(
             controller: UploadEventImgController::class,
