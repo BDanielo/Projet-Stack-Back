@@ -16,12 +16,14 @@ class UserController extends AbstractController
 
     public function __construct(
         private UserRepository $repo,
+        private Security $security,
 
     )
     {
     }
 
     public function findByEmail(Request $request): Response {
+
         $queryContent = $request->getQueryString();
 
         // Parse the URL string into variables
@@ -39,7 +41,8 @@ class UserController extends AbstractController
 
     public function getCurrentUser() : Response
     {
-        $user = $this->getUser();
+        $token = $this->security->getToken();
+        $user = $token->getUser();
         return $this->json($user);
     }
 }

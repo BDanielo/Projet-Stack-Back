@@ -44,7 +44,7 @@ use ApiPlatform\OpenApi\Model;
             ),
             name: 'findByEmail'
         ),
-        new Get(
+        new GetCollection(
             uriTemplate: '/users/getUser',
             controller: "App\\Controller\\UserController::getCurrentUser",
             openapi: new Model\Operation(
