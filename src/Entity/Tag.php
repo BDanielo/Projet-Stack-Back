@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new Get(),
         new GetCollection(
-            normalizationContext: ['groups' => ['tag:read']]
+//            normalizationContext: ['groups' => ['tag:read']]
         ),
         new Post(
             openapi: new Model\Operation(
