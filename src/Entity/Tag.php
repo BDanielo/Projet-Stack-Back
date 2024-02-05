@@ -32,10 +32,6 @@ use Doctrine\ORM\Mapping as ORM;
                                         'type' => 'string',
                                         'example' => 'Sport'
                                     ],
-                                    'description' => [
-                                        'type' => 'string',
-                                        'example' => 'Toutes les activités sportives'
-                                    ]
                                 ],
                             ]
                         ]
@@ -53,10 +49,6 @@ use Doctrine\ORM\Mapping as ORM;
                                     'name' => [
                                         'type' => 'string',
                                         'example' => 'Sport'
-                                    ],
-                                    'description' => [
-                                        'type' => 'string',
-                                        'example' => 'Toutes les activités sportives'
                                     ]
                                 ],
                             ]
@@ -77,9 +69,6 @@ class Tag
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'tags')]
     private Collection $Events;
