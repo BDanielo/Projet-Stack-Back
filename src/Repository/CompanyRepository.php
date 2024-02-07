@@ -61,7 +61,7 @@ class CompanyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.categories', 'cc')
-            ->orWhere('c.c.name LIKE :search')
+            ->orWhere('c.name LIKE :search')
             ->orWhere('c.description LIKE :search')
             ->orWhere('c.location LIKE :search')
             ->orWhere('cc.name LIKE :search')

@@ -27,6 +27,6 @@ class CompanyController extends AbstractController
     public function searchEvents(Request $request): Response {
         $search = json_decode($request->getContent())->search;
         $events = $this->repo->searchEvents($search);
-        return $this->json($events);
+        return $this->json($events, 200, [], ['groups' => ['company:search', 'Default']]);
     }
 }

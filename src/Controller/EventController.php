@@ -25,8 +25,7 @@ class EventController extends AbstractController
         private UserRepository $userRepo,
         private CompanyRepository $companyRepo,
         private TagRepository $tagRepo,
-        private EntityManagerInterface $em,
-        private LoggerInterface $logger
+        private EntityManagerInterface $em
     )
     {
     }

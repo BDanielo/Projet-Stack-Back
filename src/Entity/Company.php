@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Controller\CompanyController;
 
@@ -45,7 +46,10 @@ use App\Controller\CompanyController;
                     ])
                 )
             ),
-            name: 'searchEvents'
+            normalizationContext: ['groups' => ['company:search']],
+            validationContext: ['groups' => ['Default', 'company:search']],
+
+            name: 'searchEventsCompany'
         ),
         new Get(),
         new GetCollection(),
@@ -134,36 +138,47 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?\DateTimeImmutable $creationDate = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?string $location = null;
 
     #[ORM\Column]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private ?bool $validated = null;
 
     #[ORM\ManyToMany(targetEntity: CompanyCategory::class, inversedBy: 'companies')]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'organizers')]
+    #[Groups(['company:read', 'company:create', 'company:update'])]
     private Collection $events;
 
     #[ORM\OneToMany(mappedBy: 'Company', targetEntity: Follow::class)]
+    #[Groups(['company:read', 'company:create', 'company:update'])]
     private Collection $follows;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
+    #[Groups(['company:read', 'company:create', 'company:update'])]
     private Collection $users;
 
     public function __construct()
