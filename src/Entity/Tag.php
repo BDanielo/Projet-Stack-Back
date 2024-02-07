@@ -99,18 +99,6 @@ class Tag
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Event>
      */
