@@ -15,10 +15,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\CompanyController;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            uriTemplate: '/companies/waitingForApproval',
+            controller: "App\\Controller\\CompanyController::getWaitingForApprovalCompanies",
+            name: "getWaitingForApproval"
+        ),
         new Get(),
         new GetCollection(),
         new Post(

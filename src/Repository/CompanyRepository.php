@@ -45,4 +45,15 @@ class CompanyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getWaitingForApprovalCompanies(): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.validated = :validated')
+            ->setParameter('validated', false)
+            ->getQuery();
+
+        return $qb->getResult();
+
+    }
 }
