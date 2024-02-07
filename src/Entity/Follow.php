@@ -11,12 +11,19 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Tests\Fixtures\Metadata\Get;
 use App\Repository\FollowRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: FollowRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => ['follow:read']],
+            validationContext: ['groups' => ['follow:read']],
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['follow:read']],
+            validationContext: ['groups' => ['follow:read']],
+        ),
         new Post(
             openapi: new Model\Operation(
                 requestBody: new Model\RequestBody(
@@ -41,7 +48,9 @@ use Doctrine\ORM\Mapping as ORM;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['follow:read']],
+            validationContext: ['groups' => ['follow:read']],
         ),
         new Put(
             openapi: new Model\Operation(
@@ -67,9 +76,14 @@ use Doctrine\ORM\Mapping as ORM;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['follow:read']],
+            validationContext: ['groups' => ['follow:read']],
         ),
-        new Delete(),
+        new Delete(
+            normalizationContext: ['groups' => ['follow:read']],
+            validationContext: ['groups' => ['follow:read']],
+        ),
     ]
 )]
 class Follow
@@ -77,6 +91,7 @@ class Follow
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['tag:read', 'event:read', 'user:read', 'company:read', 'follow:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'follows')]
