@@ -18,14 +18,21 @@ class UploadEventImgController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, private LoggerInterface $logger,)
     {
         $this->em = $em;
     }
 
     public function __invoke(Request $request): Event
     {
+//        get file from request content
         $uploadedFile = $request->files->get('file');
+
+        // log $request->request->get('name')
+        $this->logger->info('Name: '.$request->request->get('name'));
+
+
+
         if (!$uploadedFile) {
             throw new BadRequestHttpException('"file" is required');
         }
@@ -42,7 +49,7 @@ class UploadEventImgController extends AbstractController
             throw new FileException('Failed to upload the file');
         }
 
-        $filepath = $uploads_directory . '/' . $fileName;
+        $filepath ='/image/' . $fileName;
 
         $event = new Event();
         $event->setImage($filepath);
