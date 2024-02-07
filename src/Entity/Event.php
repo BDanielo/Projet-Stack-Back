@@ -229,7 +229,28 @@ use Symfony\Component\Serializer\Attribute\Groups;
 //            deserialize: false,
 //        //validationContext: ['groups' => ['Default', 'media_object_create']],
 //        ),
-        new Delete()
+        new Delete(),
+        new Post(
+            uriTemplate: '/events/search',
+            controller: "App\\Controller\\EventController::searchEvents",
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'search' => [
+                                        'type' => 'string'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ),
+            name: 'searchEvents'
+        ),
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
 )]

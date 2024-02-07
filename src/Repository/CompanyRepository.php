@@ -56,4 +56,19 @@ class CompanyRepository extends ServiceEntityRepository
         return $qb->getResult();
 
     }
+
+    public function searchEvents(string $search): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.categories', 'cc')
+            ->orWhere('c.c.name LIKE :search')
+            ->orWhere('c.description LIKE :search')
+            ->orWhere('c.location LIKE :search')
+            ->orWhere('cc.name LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
+            ->orderBy('c.creationDate', 'DESC')
+            ->getQuery();
+
+        return $qb->getResult();
+    }
 }

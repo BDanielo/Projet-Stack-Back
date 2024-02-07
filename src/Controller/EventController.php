@@ -26,7 +26,7 @@ class EventController extends AbstractController
         private CompanyRepository $companyRepo,
         private TagRepository $tagRepo,
         private EntityManagerInterface $em,
-        private LoggerInterface $logger,
+        private LoggerInterface $logger
     )
     {
     }
@@ -99,6 +99,12 @@ class EventController extends AbstractController
         $this->em->flush();
 
         return $this->json($event);
+    }
+
+    public function searchEvents(Request $request): Response {
+        $search = json_decode($request->getContent())->search;
+        $events = $this->repo->searchEvents($search);
+        return $this->json($events);
     }
 
 }

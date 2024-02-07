@@ -26,6 +26,27 @@ use App\Controller\CompanyController;
             controller: "App\\Controller\\CompanyController::getWaitingForApprovalCompanies",
             name: "getWaitingForApproval"
         ),
+        new Post(
+            uriTemplate: '/companies/search',
+            controller: "App\\Controller\\CompanyController::searchEvents",
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'search' => [
+                                        'type' => 'string'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ),
+            name: 'searchEvents'
+        ),
         new Get(),
         new GetCollection(),
         new Post(

@@ -102,4 +102,20 @@ class EventRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
+    // A function to search for events by name, description, location, and tags
+    public function searchEvents(string $search): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.tags', 't')
+            ->orWhere('e.name LIKE :search')
+            ->orWhere('e.description LIKE :search')
+            ->orWhere('e.location LIKE :search')
+            ->orWhere('t.name LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
+            ->orderBy('e.startDateTime', 'DESC')
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
 }
