@@ -45,5 +45,12 @@ class UserController extends AbstractController
         $user = $token->getUser();
         return $this->json($user);
     }
+
+    public function getUserRoles() : Response
+    {
+        $token = $this->security->getToken();
+        $user = $token->getUser();
+        return $this->json($user->getRoles());
+    }
 }
 

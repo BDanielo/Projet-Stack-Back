@@ -54,6 +54,16 @@ use ApiPlatform\OpenApi\Model;
             ),
             name: 'getUser'
         ),
+        new GetCollection(
+            uriTemplate: '/users/getRoles',
+            controller: "App\\Controller\\UserController::getUserRoles",
+            openapi: new Model\Operation(
+                operationId: 'getUserRoles',
+                tags: ['User'],
+                summary: 'Get connected user roles',
+            ),
+            name: 'getUserRoles'
+        ),
         new GetCollection(),
         new Post(validationContext: ['groups' => ['Default', 'user:create']], processor: UserPasswordHasher::class),
         new Get(),
