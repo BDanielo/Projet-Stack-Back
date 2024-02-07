@@ -25,26 +25,38 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new GetCollection(
             uriTemplate: '/events/latest',
             controller: "App\\Controller\\EventController::latest",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'getLatest'
         ),
         new GetCollection(
             uriTemplate: '/events/user/{id}/month/{month}',
             controller: "App\\Controller\\EventController::findByUserAndMonth",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'getByUserAndMonth'
         ),
         new GetCollection(
             uriTemplate: '/events/byUserAndInterests/{id}',
             controller: "App\\Controller\\EventController::findByUserAndInterests",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'getByUserAndInterests'
         ),
         new GetCollection(
             uriTemplate: '/events/participants/{id}',
             controller: "App\\Controller\\EventController::findParticipants",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'getParticipants'
         ),
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']]
+        ),
         new GetCollection(
-//            normalizationContext: ['groups' => ['event:read']]
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']]
         ),
         new Post(
             controller: "App\\Controller\\EventController::create",
@@ -103,9 +115,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']]
         ),
-        new Patch(),
+        new Patch(
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']]
+        ),
 //        new Post(
 //            controller: UploadEventImgController::class,
 //            openapi: new Model\Operation(
@@ -176,6 +193,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
                     ])
                 )
             ),
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'addParticipant',
         ),
 //        new Put(
@@ -229,7 +248,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
 //            deserialize: false,
 //        //validationContext: ['groups' => ['Default', 'media_object_create']],
 //        ),
-        new Delete(),
+        new Delete(
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']]
+        ),
         new Post(
             uriTemplate: '/events/search',
             controller: "App\\Controller\\EventController::searchEvents",
@@ -249,6 +271,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
                     ])
                 )
             ),
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
             name: 'searchEvents'
         ),
     ],
@@ -259,47 +283,47 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?\DateTimeImmutable $creationDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?\DateTimeInterface $startDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?\DateTimeInterface $endDateTime = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?string $location = null;
 
     #[ORM\Column(length: 255,nullable: true)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Company::class, inversedBy: 'events')]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private Collection $organizers;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'Events')]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:create', 'event:update'])]
     private Collection $participants;
 
     public function __construct()
