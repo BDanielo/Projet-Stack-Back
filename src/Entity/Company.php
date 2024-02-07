@@ -51,8 +51,14 @@ use App\Controller\CompanyController;
 
             name: 'searchEventsCompany'
         ),
-        new Get(),
-        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
+        ),
         new Post(
             openapi: new Model\Operation(
                 requestBody: new Model\RequestBody(
@@ -89,7 +95,9 @@ use App\Controller\CompanyController;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
         ),
         new Put(
             openapi: new Model\Operation(
@@ -127,10 +135,18 @@ use App\Controller\CompanyController;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
         ),
-        new Patch(),
-        new Delete()
+        new Patch(
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
+        ),
+        new Delete(
+            normalizationContext: ['groups' => ['company:read']],
+            validationContext: ['groups' => ['Default', 'company:read']]
+        )
     ]
 )]
 class Company
@@ -138,7 +154,7 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'event:read', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -166,19 +182,19 @@ class Company
     private ?bool $validated = null;
 
     #[ORM\ManyToMany(targetEntity: CompanyCategory::class, inversedBy: 'companies')]
-    #[Groups(['company:read', 'company:create', 'company:update', 'company:search'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'event:read', 'user:read'])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'organizers')]
-    #[Groups(['company:read', 'company:create', 'company:update'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'user:read'])]
     private Collection $events;
 
     #[ORM\OneToMany(mappedBy: 'Company', targetEntity: Follow::class)]
-    #[Groups(['company:read', 'company:create', 'company:update'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'event:read', 'user:read'])]
     private Collection $follows;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
-    #[Groups(['company:read', 'company:create', 'company:update'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'event:read'])]
     private Collection $users;
 
     public function __construct()

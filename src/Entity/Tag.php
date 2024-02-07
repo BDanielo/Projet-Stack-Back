@@ -13,13 +13,18 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['tag:read']],
+            validationContext: ['groups' => ['tag:read']],
+        ),
         new GetCollection(
-//            normalizationContext: ['groups' => ['tag:read']]
+            normalizationContext: ['groups' => ['tag:read']],
+            validationContext: ['groups' => ['tag:read']],
         ),
         new Post(
             openapi: new Model\Operation(
@@ -37,7 +42,9 @@ use Doctrine\ORM\Mapping as ORM;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['tag:read']],
+            validationContext: ['groups' => ['tag:read']],
         ),
         new Put(
             openapi: new Model\Operation(
@@ -55,9 +62,14 @@ use Doctrine\ORM\Mapping as ORM;
                         ]
                     ])
                 )
-            )
+            ),
+            normalizationContext: ['groups' => ['tag:read']],
+            validationContext: ['groups' => ['tag:read']],
         ),
-        new Delete()
+        new Delete(
+            normalizationContext: ['groups' => ['tag:read']],
+            validationContext: ['groups' => ['tag:read']],
+        )
     ]
 )]
 class Tag
@@ -65,15 +77,18 @@ class Tag
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['tag:read', 'event:read', 'user:read', 'company:read', 'follow:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'tags')]
+    #[Groups(['tag:read', 'user:read', 'follow:read'])]
     private Collection $Events;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'interests')]
+    #[Groups(['tag:read', 'event:read', 'follow:read'])]
     private Collection $users;
 
     public function __construct()

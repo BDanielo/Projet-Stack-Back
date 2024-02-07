@@ -81,14 +81,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
     #[ORM\Id]
-    #[Groups(['user:read', 'event:read'])]
+    #[Groups(['user:read', 'event:read', 'company:read', 'follow:read', 'tag:read'])]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups(['user:read', 'user:create', 'user:update', 'event:read'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -99,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $follows;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'participants')]
+    #[Groups(['user:read', 'user:create', 'user:update', 'company:read', 'follow:read'])]
     private Collection $events;
 
     public function __construct()
@@ -116,11 +117,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update', 'event:read'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['user:read', 'user:create', 'user:update', 'event:read'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
