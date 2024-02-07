@@ -119,6 +119,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'users')]
     private Collection $interests;
 
+    #[ORM\Column]
+    private ?bool $active = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -316,4 +319,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+        public function isActive(): ?bool
+        {
+            return $this->active;
+        }
+
+        public function setActive(bool $active): static
+        {
+            $this->active = $active;
+
+            return $this;
+        }
 }
