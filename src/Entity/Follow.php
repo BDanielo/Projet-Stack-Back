@@ -96,13 +96,16 @@ class Follow
 
     #[ORM\ManyToOne(inversedBy: 'follows')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['follow:read'])]
     private ?User $Follower = null;
 
     #[ORM\ManyToOne(inversedBy: 'follows')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['follow:read'])]
     private ?Company $Company = null;
 
     #[ORM\Column]
+    #[Groups(['follow:read'])]
     private ?bool $notificationEnabled = null;
 
     public function getId(): ?int

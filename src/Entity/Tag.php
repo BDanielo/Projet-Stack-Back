@@ -81,6 +81,7 @@ class Tag
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['tag:read'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'tags')]
