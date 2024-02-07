@@ -13,9 +13,6 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        register:
-            pattern: ^/api/users
-            stateless: true
         main:
             stateless: true
             provider: app_user_provider
