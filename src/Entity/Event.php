@@ -47,56 +47,116 @@ use Symfony\Component\Serializer\Attribute\Groups;
 //            normalizationContext: ['groups' => ['event:read']]
         ),
         new Post(
-            controller: UploadEventImgController::class,
+            controller: "App\\Controller\\EventController::create",
             openapi: new Model\Operation(
                 requestBody: new Model\RequestBody(
                     content: new \ArrayObject([
-                        'multipart/form-data' => [
+                        'application/json' => [
                             'schema' => [
                                 'type' => 'object',
                                 'properties' => [
                                     'name' => [
-                                        'type' => 'string'
+                                        'type' => 'string',
+                                        'example' => 'Soirée au bar de la plage'
                                     ],
                                     'description' => [
-                                        'type' => 'string'
+                                        'type' => 'string',
+                                        'example' => 'Soirée au bar de la plage chill et sympa'
                                     ],
                                     'location' => [
-                                        'type' => 'string'
+                                        'type' => 'string',
+                                        'example' => 'Bar de la plage'
                                     ],
                                     'startDateTime' => [
                                         'type' => 'string',
-                                        'format' => 'date-time'
+                                        'format' => 'date-time',
+                                        'example' => '2024-04-04T18:00:00'
                                     ],
                                     'endDateTime' => [
                                         'type' => 'string',
-                                        'format' => 'date-time'
+                                        'format' => 'date-time',
+                                        'example' => '2024-04-04T23:59:59'
                                     ],
-                                    'file' => [
-                                        'type' => 'string',
-                                        'format' => 'binary'
-                                    ],
-                                    'organizersId' => [
+                                    'organizerIds' => [
                                         'type' => 'array',
                                         'items' => [
                                             'type' => 'integer'
-                                        ]
+                                        ],
+                                        'example' => [3]
                                     ],
-                                    'participantsId' => [
+                                    'participantIds' => [
                                         'type' => 'array',
                                         'items' => [
                                             'type' => 'integer'
-                                        ]
+                                        ],
+                                        'example' => [5]
+                                    ],
+                                    'tagIds' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'integer'
+                                        ],
+                                        'example' => [6]
                                     ]
                                 ]
                             ]
                         ]
                     ])
                 )
-            ),
-            deserialize: false,
-            //validationContext: ['groups' => ['Default', 'media_object_create']],
+            )
         ),
+        new Patch(),
+//        new Post(
+//            controller: UploadEventImgController::class,
+//            openapi: new Model\Operation(
+//                requestBody: new Model\RequestBody(
+//                    content: new \ArrayObject([
+//                        'multipart/form-data' => [
+//                            'schema' => [
+//                                'type' => 'object',
+//                                'properties' => [
+//                                    'name' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'description' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'location' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'startDateTime' => [
+//                                        'type' => 'string',
+//                                        'format' => 'date-time'
+//                                    ],
+//                                    'endDateTime' => [
+//                                        'type' => 'string',
+//                                        'format' => 'date-time'
+//                                    ],
+//                                    'file' => [
+//                                        'type' => 'string',
+//                                        'format' => 'binary'
+//                                    ],
+//                                    'organizersId' => [
+//                                        'type' => 'array',
+//                                        'items' => [
+//                                            'type' => 'integer'
+//                                        ]
+//                                    ],
+//                                    'participantsId' => [
+//                                        'type' => 'array',
+//                                        'items' => [
+//                                            'type' => 'integer'
+//                                        ]
+//                                    ]
+//                                ]
+//                            ]
+//                        ]
+//                    ])
+//                )
+//            ),
+//            deserialize: false,
+//            //validationContext: ['groups' => ['Default', 'media_object_create']],
+//        ),
         new Post(
             uriTemplate: '/events/{id}/addParticipant',
             controller: "App\\Controller\\EventController::addParticipant",
@@ -118,57 +178,57 @@ use Symfony\Component\Serializer\Attribute\Groups;
             ),
             name: 'addParticipant',
         ),
-        new Put(
-            controller: UploadEventImgController::class,
-            openapi: new Model\Operation(
-                requestBody: new Model\RequestBody(
-                    content: new \ArrayObject([
-                        'multipart/form-data' => [
-                            'schema' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'name' => [
-                                        'type' => 'string'
-                                    ],
-                                    'description' => [
-                                        'type' => 'string'
-                                    ],
-                                    'location' => [
-                                        'type' => 'string'
-                                    ],
-                                    'startDateTime' => [
-                                        'type' => 'string',
-                                        'format' => 'date-time'
-                                    ],
-                                    'endDateTime' => [
-                                        'type' => 'string',
-                                        'format' => 'date-time'
-                                    ],
-                                    'file' => [
-                                        'type' => 'string',
-                                        'format' => 'binary'
-                                    ],
-                                    'organizersId' => [
-                                        'type' => 'array',
-                                        'items' => [
-                                            'type' => 'integer'
-                                        ]
-                                    ],
-                                    'participantsId' => [
-                                        'type' => 'array',
-                                        'items' => [
-                                            'type' => 'integer'
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ])
-                )
-            ),
-            deserialize: false,
-        //validationContext: ['groups' => ['Default', 'media_object_create']],
-        ),
+//        new Put(
+//            controller: UploadEventImgController::class,
+//            openapi: new Model\Operation(
+//                requestBody: new Model\RequestBody(
+//                    content: new \ArrayObject([
+//                        'multipart/form-data' => [
+//                            'schema' => [
+//                                'type' => 'object',
+//                                'properties' => [
+//                                    'name' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'description' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'location' => [
+//                                        'type' => 'string'
+//                                    ],
+//                                    'startDateTime' => [
+//                                        'type' => 'string',
+//                                        'format' => 'date-time'
+//                                    ],
+//                                    'endDateTime' => [
+//                                        'type' => 'string',
+//                                        'format' => 'date-time'
+//                                    ],
+//                                    'file' => [
+//                                        'type' => 'string',
+//                                        'format' => 'binary'
+//                                    ],
+//                                    'organizersId' => [
+//                                        'type' => 'array',
+//                                        'items' => [
+//                                            'type' => 'integer'
+//                                        ]
+//                                    ],
+//                                    'participantsId' => [
+//                                        'type' => 'array',
+//                                        'items' => [
+//                                            'type' => 'integer'
+//                                        ]
+//                                    ]
+//                                ]
+//                            ]
+//                        ]
+//                    ])
+//                )
+//            ),
+//            deserialize: false,
+//        //validationContext: ['groups' => ['Default', 'media_object_create']],
+//        ),
         new Delete()
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
@@ -205,7 +265,7 @@ class Event
     #[Groups(['event:read'])]
     private ?string $location = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     #[Groups(['event:read'])]
     private ?string $image = null;
 
