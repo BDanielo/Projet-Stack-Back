@@ -48,7 +48,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             controller: "App\\Controller\\EventController::findParticipants",
             normalizationContext: ['groups' => ['event:read']],
             validationContext: ['groups' => ['event:read']],
-            name: 'getParticipants'
+            name: 'getParticipants',
         ),
         new Get(
             normalizationContext: ['groups' => ['event:read']],
