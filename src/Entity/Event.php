@@ -271,10 +271,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
                     ])
                 )
             ),
-            normalizationContext: ['groups' => ['event:read']],
-            validationContext: ['groups' => ['event:read']],
+            normalizationContext: ['groups' => ['event:search']],
+            validationContext: ['groups' => ['event:search']],
             name: 'searchEvents'
         ),
+        new GetCollection(
+            uriTemplate: '/events/getOfCompany/{id}',
+            controller: "App\\Controller\\EventController::findByCompany",
+            description: 'Get all events of company',
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'getByCompany'
+        )
     ],
 //    normalizationContext: ['groups' => ['media_object:read']]
 )]
@@ -283,39 +291,39 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['event:read', 'event:create', 'event:update', 'company:read', 'user:read', 'tag:read'])]
+    #[Groups(['event:create', 'event:update', 'company:read', 'tag:read', 'event:search'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?\DateTimeImmutable $creationDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?\DateTimeInterface $startDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?\DateTimeInterface $endDateTime = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?string $location = null;
 
     #[ORM\Column(length: 255,nullable: true)]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search'])]
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Company::class, inversedBy: 'events')]
-    #[Groups(['event:read', 'event:create', 'event:update'])]
+    #[Groups(['event:read', 'event:create', 'event:update', 'event:search', 'event:latest'])]
     private Collection $organizers;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'Events')]
