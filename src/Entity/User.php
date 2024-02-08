@@ -52,6 +52,8 @@ use ApiPlatform\OpenApi\Model;
                 tags: ['User'],
                 summary: 'Get connected user',
             ),
+            normalizationContext: ['groups' => ['user:read']],
+            validationContext: ['groups' => ['Default', 'user:read']],
             name: 'getUser'
         ),
         new GetCollection(
@@ -70,6 +72,26 @@ use ApiPlatform\OpenApi\Model;
         new Put(processor: UserPasswordHasher::class),
         new Patch(processor: UserPasswordHasher::class),
         new Delete(),
+        new Post(
+            uriTemplate: '/users/{id}/addCompany',
+            controller: "App\\Controller\\UserController::addCompany",
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'companyId' => [
+                                        'type' => 'integer'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ),
+        )
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
@@ -125,6 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?Company $company = null;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'users')]
