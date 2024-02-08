@@ -118,4 +118,16 @@ class EventRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
+    public function findByCompany($id)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->Join('e.organizers', 'o')
+            ->andWhere('o.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('e.startDateTime', 'DESC')
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
 }
