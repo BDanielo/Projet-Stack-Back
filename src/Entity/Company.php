@@ -154,7 +154,7 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'event:read', 'user:read'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -182,7 +182,7 @@ class Company
     private ?bool $validated = null;
 
     #[ORM\ManyToMany(targetEntity: CompanyCategory::class, inversedBy: 'companies')]
-    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'event:read', 'user:read'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'company:search', 'user:read'])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'organizers')]
@@ -190,11 +190,11 @@ class Company
     private Collection $events;
 
     #[ORM\OneToMany(mappedBy: 'Company', targetEntity: Follow::class)]
-    #[Groups(['company:read', 'company:create', 'company:update', 'event:read', 'user:read'])]
+    #[Groups(['company:read', 'company:create', 'company:update', 'user:read'])]
     private Collection $follows;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
-    #[Groups(['company:read', 'company:create', 'company:update', 'event:read'])]
+    #[Groups(['company:read', 'company:create', 'company:update'])]
     private Collection $users;
 
     public function __construct()
