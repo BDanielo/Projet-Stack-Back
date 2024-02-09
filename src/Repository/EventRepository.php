@@ -66,8 +66,9 @@ class EventRepository extends ServiceEntityRepository
     public function findLatest(): array
     {
         $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.startDateTime >= :start')
+            ->setParameter('start', new \DateTime(date('Y-m-d')))
             ->orderBy('e.startDateTime', 'DESC')
-            ->setMaxResults(10)
             ->getQuery();
 
         return $qb->getResult();
