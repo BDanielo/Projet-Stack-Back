@@ -57,13 +57,34 @@ class EventController extends AbstractController
     public function addParticipant($id, Request $request): Response {
         $event = $this->repo->find($id);
 
-        $userId = json_decode($request->getContent())->userId;
+        $userId = $this->getUser()->getId();
 
         $user = $this->userRepo->find($userId);
         $event->addParticipant($user);
 
         $this->em->persist($event);
         $this->em->flush();
+
+        return $this->json($event);
+    }
+
+    public function removeParticipant($id, Request $request): Response {
+        $event = $this->repo->find($id);
+
+        $userId = $this->getUser()->getId();
+
+        $user = $this->userRepo->find($userId);
+        $event->removeParticipant($user);
+
+        $this->em->persist($event);
+        $this->em->flush();
+
+        return $this->json($event);
+    }
+
+    public function isUserParticipant($id): Response {
+        $userId = $this->getUser()->getId();
+        $event = $this->repo->isUserParticipant($id, $userId);
 
         return $this->json($event);
     }

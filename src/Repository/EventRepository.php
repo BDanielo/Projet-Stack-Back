@@ -131,4 +131,17 @@ class EventRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
+    public function isUserParticipant($id, $userId)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->Join('e.participants', 'p')
+            ->andWhere('e.id = :id')
+            ->andWhere('p.id = :userId')
+            ->setParameter('id', $id)
+            ->setParameter('userId', $userId)
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
 }

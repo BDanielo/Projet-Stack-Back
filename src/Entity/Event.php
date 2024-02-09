@@ -177,25 +177,23 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Post(
             uriTemplate: '/events/{id}/addParticipant',
             controller: "App\\Controller\\EventController::addParticipant",
-            openapi: new Model\Operation(
-                requestBody: new Model\RequestBody(
-                    content: new \ArrayObject([
-                        'application/json' => [
-                            'schema' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'userId' => [
-                                        'type' => 'integer'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ])
-                )
-            ),
             normalizationContext: ['groups' => ['event:read']],
             validationContext: ['groups' => ['event:read']],
             name: 'addParticipant',
+        ),
+        new Post(
+            uriTemplate: '/events/{id}/removeParticipant',
+            controller: "App\\Controller\\EventController::removeParticipant",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'removeParticipant',
+        ),
+        new Get(
+            uriTemplate: '/events/{id}/isUserParticipant',
+            controller: "App\\Controller\\EventController::isUserParticipant",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'isUserParticipant',
         ),
 //        new Put(
 //            controller: UploadEventImgController::class,
@@ -333,6 +331,9 @@ class Event
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
     #[Groups(['event:read', 'event:create', 'event:update'])]
     private Collection $participants;
+
+    #[Groups(['event:read', 'event:create', 'event:update'])]
+    private array $userParticipating;
 
     public function __construct()
     {
@@ -504,5 +505,15 @@ class Event
         $this->participants->removeElement($participant);
 
         return $this;
+    }
+
+    public function isUserParticipating(): array
+    {
+        $users = $this->getParticipants();
+        $usersId = [];
+        foreach ($users as $user) {
+            $usersId[] = $user->getId();
+        }
+        return $usersId;
     }
 }
