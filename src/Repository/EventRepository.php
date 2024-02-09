@@ -48,16 +48,19 @@ class EventRepository extends ServiceEntityRepository
     // A function to get events of a user for a specific month of current year
     public function findByUserAndMonth(int $userId, int $month): array
     {
-        $qb = $this->createQueryBuilder('e')
+            $qb = $this->createQueryBuilder('e')
             ->andWhere('e.startDateTime >= :start')
             ->andWhere('e.startDateTime < :end')
-            ->andWhere('o.id = :userId')
+            ->andWhere('p.id =:userId')
+            ->orWhere('o.id = :userId')
             ->Join('e.organizers', 'o')
+            ->Join('e.participants', 'p')
             ->setParameter('start', new \DateTime(date('Y')."-$month-01"))
             ->setParameter('end', (new \DateTime(date('Y')."-$month-01"))->modify('last day of this month'))
             ->setParameter('userId', $userId)
             ->orderBy('e.startDateTime', 'DESC')
             ->getQuery();
+
 
         return $qb->getResult();
     }
