@@ -104,7 +104,7 @@ class Follow
     #[Groups(['follow:read'])]
     private ?Company $Company = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Groups(['follow:read'])]
     private ?bool $notificationEnabled = null;
 

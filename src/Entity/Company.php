@@ -146,7 +146,28 @@ use App\Controller\CompanyController;
         new Delete(
             normalizationContext: ['groups' => ['company:read']],
             validationContext: ['groups' => ['Default', 'company:read']]
-        )
+        ),
+        new Post(
+            uriTemplate: '/companies/{id}/addSubscriber',
+            controller: "App\\Controller\\CompanyController::addSubscriber",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'addSubscriber',
+        ),
+        new Post(
+            uriTemplate: '/companies/{id}/removeSubscriber',
+            controller: "App\\Controller\\CompanyController::removeSubscriber",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'removeSubscriber',
+        ),
+        new Get(
+            uriTemplate: '/companies/{id}/isUserSubscribe',
+            controller: "App\\Controller\\CompanyController::isUserSubscribe",
+            normalizationContext: ['groups' => ['event:read']],
+            validationContext: ['groups' => ['event:read']],
+            name: 'isUserSubscribe',
+        ),
     ]
 )]
 class Company
@@ -196,6 +217,9 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: User::class)]
     #[Groups(['company:read', 'company:create', 'company:update'])]
     private Collection $users;
+
+    #[Groups(['company:read', 'company:create', 'company:update'])]
+    private int $suscribersNumber;
 
     public function __construct()
     {
@@ -344,6 +368,7 @@ class Company
     public function addFollow(Follow $follow): static
     {
         if (!$this->follows->contains($follow)) {
+            //check if user is already subscribed
             $this->follows->add($follow);
             $follow->setCompany($this);
         }
@@ -391,5 +416,15 @@ class Company
         }
 
         return $this;
+    }
+
+    public function getSuscribersNumber(): int
+    {
+        return count($this->follows);
+    }
+
+    public function isSubscribed(?User $user)
+    {
+        return $this->follows->contains($user);
     }
 }
